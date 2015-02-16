@@ -6,22 +6,32 @@
 usage()
 {
     echo "usage: $(basename $0) -h"
-    echo "       $(basename $0) [<tush-script> ...]"
+    echo "       $(basename $0) [-x] [<tush-script> ...]"
 
 }
 
-while getopts h opt; do
+expand_input=0
+
+while getopts hx opt; do
     case $opt in
 	h) usage && exit ;;
+	x) expand_input=1 ;;
 	?) usage >&2 && exit 64 ;;
     esac
 done
 
+while [ $OPTIND -gt 1 ]; do
+    OPTIND=$(($OPTIND - 1))
+    shift
+done
+
 output=$(mktemp tush-output.XXXXX)
+input=$(mktemp tush-input.XXXXX)
 
 cleanup()
 {
     rm -f $output
+    rm -f $input
 }
 
 trap cleanup EXIT HUP KILL TERM
@@ -30,5 +40,11 @@ for f in "$@"
 do
     [ ! -f ${f} ] && echo "file ${f} not found." && exit 66
 
-    (tush-run ${f} >$output && diff -b -u ${f} $output) || exit 1
+    if [ $expand_input = 1 ]; then
+	tush-expand ${f} > $input
+    else
+	cp ${f} $input
+    fi
+
+    (tush-run ${f} >$output && diff -b -u $input $output) || exit 1
 done

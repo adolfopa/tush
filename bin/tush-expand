@@ -1,0 +1,48 @@
+#!/usr/bin/awk -f
+
+/^(\||@).*\$[a-zA-Z_0-9]+/ {
+    while (match($0, /\$[a-zA-Z_0-9]+/))
+	expand_variable(0)
+}
+
+/^(\||\@).*\$\{[a-zA-Z_0-9]+\}/ {
+    while (match($0, /\$\{[a-zA-Z_0-9]+\}/))
+	expand_variable(1)
+}
+
+/^(\||@).*\$\([^\)]+\)/ {
+    while (match($0, /\$\([^\)]+\)/))
+	expand_command(1)
+}
+
+/^(\||@).*`[^`]+`/ {
+    while (match($0, /`[^`]+`/))
+	expand_command(0)
+}
+
+{ print }
+
+function expand_command(parenp,    var, i, j) {
+    i = parenp ? 2 : 1
+    j = parenp ? 3 : 2
+
+    cmd = substr($0, RSTART + i, RLENGTH - j)
+    cmd | getline val
+
+    sub(escape(substr($0, RSTART, RLENGTH)), val)
+}
+
+function expand_variable(curlyp,    var, i, j) {
+    i = curlyp ? 2 : 1
+    j = curlyp ? 3 : 1
+
+    var = substr($0, RSTART + i, RLENGTH - j)
+
+    sub(escape(substr($0, RSTART, RLENGTH)), ENVIRON[var])
+}
+
+function escape(s) {
+    gsub(/\$|\^|\||\(|\)|\{|\}|\[|\]|\*|\+|\?/, "\\\\&", s)
+
+    return s
+}
