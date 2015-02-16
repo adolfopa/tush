@@ -6,7 +6,20 @@
 # correct one, however, and then we want to change the script accordingly.
 # That's what tush-bless does.
 
+usage()
+{
+    echo "usage: $(basename $0) -h"
+    echo "       $(basename $0) <tush-script>"
+}
+
+while getopts h opt; do
+    case $opt in
+	h) usage && exit ;;
+	?) usage >&2 && exit 64 ;;
+    esac
+done
+
 case $# in 
   1) overwrite ${1} tush-run ${1};;
-  *) echo "Usage: $0 tush-script" 1>&2; exit 2
+  *) usage >&2; exit 64
 esac

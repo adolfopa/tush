@@ -1,8 +1,21 @@
 #!/bin/sh
 # Copyright 2007 Darius Bacon under the MIT X license.
 
-# usage: tush-check [tush-script...]
 # Checking succeeds iff each script produces itself unaltered as output.
+
+usage()
+{
+    echo "usage: $(basename $0) -h"
+    echo "       $(basename $0) [<tush-script> ...]"
+
+}
+
+while getopts h opt; do
+    case $opt in
+	h) usage && exit ;;
+	?) usage >&2 && exit 64 ;;
+    esac
+done
 
 output=$(mktemp tush-output.XXXXX)
 

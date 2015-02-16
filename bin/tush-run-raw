@@ -1,7 +1,6 @@
 #!/bin/sh
 # Copyright 2007 Darius Bacon under the MIT X license.
 
-# usage: tush-run-raw [tush-script...]
 # Run a tush test script, producing its result on stdout. The result is
 # the same as the input except with its old output sections replaced by
 # new ones from rerunning each command.
@@ -9,6 +8,19 @@
 # This should be implemented as a #!/usr/bin/awk script instead of a 
 # silly sh script that just invokes awk. But every variant of that
 # that I've tried breaks on some system or other.
+
+usage()
+{
+    echo "usage: $(basename $0) -h"
+    echo "       $(basename $0) [<tush-script> ...]"
+}
+
+while getopts h opt; do
+    case $opt in
+	h) usage && exit ;;
+	?) usage >&2 && exit 64 ;;
+    esac
+done
 
 awk -v TMPDIR="${TMPDIR:-/tmp}" '
         BEGIN {
