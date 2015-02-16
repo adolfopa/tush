@@ -24,7 +24,7 @@ cleanup()
     rm -f $output
 }
 
-trap cleanup EXIT SIGHUP SIGKILL SIGTERM
+trap cleanup EXIT HUP KILL TERM
 
 for f in "$@"
 do

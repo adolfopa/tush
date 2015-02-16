@@ -23,6 +23,6 @@ cleanup()
     rm -rf $scratch
 }
 
-trap cleanup EXIT SIGHUP SIGKILL SIGTERM
+trap cleanup EXIT HUP KILL TERM
 
 cat "$@" | (cd $scratch; tush-run-raw)
