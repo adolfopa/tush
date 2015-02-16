@@ -5,8 +5,13 @@
 
 # For test isolation, commands are run in a fresh scratch subdirectory
 # of the current directory.
-scratch=tush-scratch
+scratch=$(mktemp -d tush-scratch.XXXXX)
 
-rm -rf $scratch
-mkdir $scratch &&
-cat "$@" | (cd $scratch; tush-run-raw) && rm -rf $scratch
+cleanup()
+{
+    rm -rf $scratch
+}
+
+trap cleanup EXIT SIGHUP SIGKILL SIGTERM
+
+cat "$@" | (cd $scratch; tush-run-raw)

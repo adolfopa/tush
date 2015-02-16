@@ -4,11 +4,16 @@
 # usage: tush-check [tush-script...]
 # Checking succeeds iff each script produces itself unaltered as output.
 
-output=tush-output
+output=$(mktemp tush-output.XXXXX)
+
+cleanup()
+{
+    rm -f $output
+}
+
+trap cleanup EXIT SIGHUP SIGKILL SIGTERM
 
 for f in "$@"
 do
     (tush-run ${f} >$output && diff -b -u ${f} $output) || exit 1
 done
-
-rm -f $output
