@@ -28,5 +28,7 @@ trap cleanup EXIT HUP KILL TERM
 
 for f in "$@"
 do
+    [ ! -f ${f} ] && echo "file ${f} not found." && exit 66
+
     (tush-run ${f} >$output && diff -b -u ${f} $output) || exit 1
 done
