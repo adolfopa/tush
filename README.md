@@ -1,5 +1,9 @@
 # tush -- a literate testing shell
 
+> :bangbang: This repository is not in sync with upstream. It contains
+> features not available on darius/tush (the opposite may be true
+> also).
+
 This is sort of a doctest for shellscripts. There are two major pluses:
 
   * The examples in your documentation get checked automatically.
