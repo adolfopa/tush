@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/adolfopa/tush.svg)](https://travis-ci.org/adolfopa/tush)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/adolfopa/tush/master/COPYING)
+
 # tush -- a literate testing shell
 
 > :bangbang: This repository is not in sync with upstream. It contains
