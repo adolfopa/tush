@@ -1,27 +1,38 @@
+# Edge cases
+
 Some edge cases. First, empty input does nothing:
 
+```sh
 $ tush-run </dev/null
+```
 
 Input with no commands and no output is just echoed:
 
+```sh
 $ echo  >text OK here we go
 $ echo >>text Move on. Nothing to see here.
+```
 
+```sh
 $ tush-run text
 | OK here we go
 | Move on. Nothing to see here.
+```
 
 But output is dropped:
 
+```sh
 $ echo >>text '| wheee'
 
 $ tush-run text
 | OK here we go
 | Move on. Nothing to see here.
+```
 
 And lines that look like they might have been meant as commands
 provoke a warning:
 
+```sh
 $ echo >>text ' | heee'
 $ echo >>text '   ? 42'
 $ echo >>text '  @ ouch'
@@ -35,5 +46,6 @@ $ tush-run text
 @ Warning: comment line that looks like a command
 @ Warning: comment line that looks like a command
 @ Warning: comment line that looks like a command
+```
 
 (Really it ought to tell you *which* line it's warning about. Sorry.)

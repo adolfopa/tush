@@ -1,10 +1,11 @@
 # Input document expansion
 
-When given the `-x` flag, `tush` should expand all shell variables
-(`${VAR}` or `$VAR`) and command substitutions (`$(cmd)` and ``cmd``).
+When given the `-x` flag, `tush-check` should expand all shell
+variables (`${VAR}` or `$VAR`) and command substitutions (`$(cmd)` and
+``cmd``) on stdin and stdout expectations.
 
 In the following example, the output references the `$HOME`
-variable. This will be expanded as expected:
+variable. The variable will be expanded as expected:
 
 ```sh
 $ echo $HOME/bogus_dir
@@ -18,7 +19,8 @@ $ echo ${HOME}/bogus_dir
 | ${HOME}/bogus_dir
 ```
 
-Command substitutions will also be expanded:
+Tush will also expand command substitutions using both backticks or `$()`
+syntax:
 
 ```sh
 $ echo $(pwd)
