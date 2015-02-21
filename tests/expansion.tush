@@ -1,0 +1,32 @@
+# Input document expansion
+
+When given the `-x` flag, `tush` should expand all shell variables
+(`${VAR}` or `$VAR`) and command substitutions (`$(cmd)` and ``cmd``).
+
+In the following example, the output references the `$HOME`
+variable. This will be expanded as expected:
+
+```sh
+$ cd ~/bogus_dir
+@ sh: line 0: cd: $HOME/bogus_dir: No such file or directory
+? 1
+```
+
+Variable references with curly braces will also work:
+
+```sh
+$ cd ~/bogus_dir
+@ sh: line 0: cd: ${HOME}/bogus_dir: No such file or directory
+? 1
+```
+
+Command substitutions will also be expanded:
+
+```sh
+$ rm $(pwd)
+@ rm: $(pwd): is a directory
+? 1
+$ rm `pwd`
+@ rm: `pwd`: is a directory
+? 1
+```
