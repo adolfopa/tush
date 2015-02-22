@@ -27,13 +27,14 @@ done
 
 output=$(mktemp tush-output.XXXXX)
 input=$(mktemp tush-input.XXXXX)
-sandbox=$(mktemp -d tush-scratch.XXXXX)
+
+. $(dirname $0)/tush-sandbox.sh-lib
 
 cleanup()
 {
     rm -f $output
     rm -f $input
-    rm -rf $sandbox
+    sandbox_rm
 }
 
 trap cleanup EXIT HUP KILL TERM
@@ -43,10 +44,10 @@ do
     [ ! -f ${f} ] && echo "file ${f} not found." && exit 66
 
     if [ $expand_input = 1 ]; then
-	(cd $sandbox && tush-expand ../${f}) > $input
+	sandbox_exec tush-expand ../${f} > $input
     else
 	cp ${f} $input
     fi
 
-    (cat ${f} | (cd $sandbox ; tush-run-raw) >$output && diff -b -u $input $output) || exit 1
+    (tush-run ${f} >$output && diff -b -u $input $output) || exit 1
 done

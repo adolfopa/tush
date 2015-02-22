@@ -1,0 +1,28 @@
+# -*- mode: sh; -*-
+
+sandbox_rm()
+{
+    ## Delete the sandbox dir only when this was the process that
+    ## created it.
+    if [ ${TUSH_SANDBOX_PID:-none} = $$ \
+	-a ${TUSH_SANDBOX:-none} != none \
+	-a -d $TUSH_SANDBOX ];
+    then
+	rm -rf $TUSH_SANDBOX
+    fi
+}
+
+sandbox_create()
+{
+    if [ ${TUSH_SANDBOX:-none} = none ]; then
+	export TUSH_SANDBOX=$(mktemp -d tush-scratch.XXXXX)
+	export TUSH_SANDBOX_PID=$$
+    fi
+}
+
+sandbox_exec()
+{
+    sandbox_create
+    
+    ([ $(basename $(pwd)) != $TUSH_SANDBOX ] && cd $TUSH_SANDBOX ; $@)
+}

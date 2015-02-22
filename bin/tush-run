@@ -14,15 +14,15 @@ while getopts h opt; do
     esac
 done
 
-# For test isolation, commands are run in a fresh scratch subdirectory
-# of the current directory.
-scratch=$(mktemp -d tush-scratch.XXXXX)
+. $(dirname $0)/tush-sandbox.sh-lib
 
 cleanup()
 {
-    rm -rf $scratch
+    sandbox_rm
 }
 
 trap cleanup EXIT HUP KILL TERM
 
-cat "$@" | (cd $scratch; tush-run-raw)
+sandbox_create
+
+cat "$@" | sandbox_exec tush-run-raw
