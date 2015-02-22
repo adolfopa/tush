@@ -16,12 +16,7 @@ done
 
 . $(dirname $0)/tush-sandbox.sh-lib
 
-cleanup()
-{
-    sandbox_rm
-}
-
-trap cleanup EXIT HUP KILL TERM
+trap sandbox_rm EXIT HUP KILL TERM
 
 sandbox_create
 
