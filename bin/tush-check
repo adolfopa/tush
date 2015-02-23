@@ -47,5 +47,5 @@ do
 
     < ${f} $expand_cmd > $expanded
 
-    (tush-run ${f} >$output && diff -b -u $expanded $output) || exit 1
+    (tush-run ${f} > $output && diff -b -u $expanded $output) || exit 1
 done
