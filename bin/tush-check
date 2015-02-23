@@ -39,6 +39,8 @@ cleanup()
 
 trap cleanup EXIT HUP KILL TERM
 
+sandbox_create
+
 for f in "$@"
 do
     [ ! -f ${f} ] && echo "file ${f} not found." && exit 66
