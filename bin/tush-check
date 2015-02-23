@@ -10,12 +10,12 @@ usage()
 
 }
 
-expand_input=0
+expand_cmd=cat
 
 while getopts hx opt; do
     case $opt in
 	h) usage && exit ;;
-	x) expand_input=1 ;;
+	x) expand_cmd="sandbox_exec tush-expand" ;;
 	?) usage >&2 && exit 64 ;;
     esac
 done
@@ -45,11 +45,7 @@ for f in "$@"
 do
     [ ! -f ${f} ] && echo "file ${f} not found." && exit 66
 
-    if [ $expand_input = 1 ]; then
-	sandbox_exec tush-expand ../${f} > $input
-    else
-	cp ${f} $input
-    fi
+    < ${f} $expand_cmd > $input
 
     (tush-run ${f} >$output && diff -b -u $input $output) || exit 1
 done
