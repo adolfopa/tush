@@ -23,7 +23,7 @@ BEGIN {
 }
 
 /^[ \t]+[|@?$]/ {
-    print "Warning: comment line that looks like a command" >"/dev/stderr"
+    print "Warning: comment line that looks like a command" > "/dev/stderr"
 }
 
 { print }
@@ -40,7 +40,7 @@ END {
 # Produce decorated outputs and status from running command in the
 # shell.
 function run(command,   status, result) {
-    status = system("(" command "\n) >"capture_out " 2>"capture_err)
+    status = system("(" command "\n) > " capture_out " 2> " capture_err)
 
     result = result prefix("| ", snarf(capture_out))
     result = result prefix("@ ", snarf(capture_err))
@@ -52,7 +52,7 @@ function run(command,   status, result) {
 # Return the contents of file f.
 # (NB: the last line gets a \n whether it came with one or not.)
 function snarf(f,   result, line) {
-    while ((getline line <f) > 0)
+    while ((getline line < f) > 0)
 	result = result line "\n"
 
     close(f)
