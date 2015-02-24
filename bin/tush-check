@@ -25,14 +25,12 @@ while [ $OPTIND -gt 1 ]; do
     shift
 done
 
-output=$(mktemp tush-output.XXXXX)
 expanded=$(mktemp tush-expanded.XXXXX)
 
 . $(dirname $0)/tush-sandbox.sh-lib
 
 cleanup()
 {
-    rm -f $output
     rm -f $expanded
     sandbox_rm
 }
@@ -47,5 +45,5 @@ do
 
     < ${f} $expand_cmd > $expanded
 
-    (tush-run ${f} > $output && diff -b -u $expanded $output) || exit 1
+    (tush-run ${f} | diff -b -u $expanded -) || exit 1
 done
