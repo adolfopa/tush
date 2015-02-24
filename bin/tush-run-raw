@@ -23,7 +23,7 @@ BEGIN {
 }
 
 /^[ \t]+[|@?$]/ {
-    print "Warning: comment line that looks like a command" > "/dev/stderr"
+    print "Warning: comment line that looks like a command" | "cat >&2"
 }
 
 { print }
