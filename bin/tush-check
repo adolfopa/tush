@@ -6,14 +6,16 @@
 usage()
 {
     echo "usage: $(basename $0) -h"
-    echo "       $(basename $0) [-x] [<tush-script> ...]"
+    echo "       $(basename $0) [-b] [-x] [<tush-script> ...]"
 
 }
 
 expand_cmd=cat
+ignore_blanks=
 
-while getopts hx opt; do
+while getopts bhx opt; do
     case $opt in
+	b) ignore_blanks="-b" ;;
 	h) usage && exit ;;
 	x) expand_cmd="sandbox_exec tush-expand" ;;
 	?) usage >&2 && exit 64 ;;
@@ -45,5 +47,5 @@ do
 
     < ${f} $expand_cmd > $expanded
 
-    (tush-run ${f} | diff -b -u $expanded -) || exit 1
+    (tush-run ${f} | diff $ignore_blanks -u $expanded -) || exit 1
 done
