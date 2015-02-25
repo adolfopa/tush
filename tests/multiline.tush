@@ -1,0 +1,31 @@
+# Multiline commands
+
+Tush is able to execute multiline commands, where each line except the
+last one has a `\` as the last character:
+
+```sh
+$ echo first \
+    second \
+    third
+| first second third
+```
+
+As with simple commands, multiline commands can be mixed with other
+content:
+
+```sh
+This is a comment ...
+$ echo a single line command
+| a single line command
+More content
+    $ this is not a command
+$ echo I am \
+   multiline \
+   really
+| I am multiline really
+$ echo a different command
+| a different command
+$ echo multiline \
+   followed
+| multiline followed
+by regular content

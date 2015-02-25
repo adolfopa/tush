@@ -28,8 +28,23 @@ BEGIN {
 
 { print }
 
-/^[$] / {
+/^[$] .*\\$/ {
+    run_saved()
+
+    save_line($0)
+}
+
+/^[$] .*[^\\]$/ {
+    run_saved()
+
     printf "%s", run(substr($0, 3))
+}
+
+multiline_mode && /^[^$]/ {
+    save_line($0)
+
+    if (!match($0, /\\$/))
+	run_saved()
 }
 
 END {
@@ -70,4 +85,24 @@ function prefix(pre, s) {
     gsub(/\n/, "\n" pre, s)
 
     return pre s "\n"
+}
+
+function run_saved() {
+    if (!multiline_mode)
+	return
+
+    if (cmd)
+	printf "%s", run(substr(cmd, 3))
+
+    cmd = ""
+
+    multiline_mode = 0
+}
+
+function save_line(ln,    i) {
+    i = match(ln, /\\$/) > 0
+
+    cmd = cmd " " substr(ln, 1, length(ln) - i)
+
+    multiline_mode = 1
 }
