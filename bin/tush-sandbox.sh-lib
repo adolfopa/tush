@@ -22,5 +22,5 @@ sandbox_create()
 
 sandbox_exec()
 {
-    ([ $(basename $(pwd)) != $TUSH_SANDBOX ] && cd $TUSH_SANDBOX ; $@)
+    ([ "$(basename "$(pwd)")" != $TUSH_SANDBOX ] && cd $TUSH_SANDBOX ; $@)
 }

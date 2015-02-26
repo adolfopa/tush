@@ -14,7 +14,7 @@ while getopts h opt; do
     esac
 done
 
-. $(dirname $0)/tush-sandbox.sh-lib
+. "$(dirname "$0")/tush-sandbox.sh-lib"
 
 trap sandbox_rm EXIT HUP KILL TERM
 

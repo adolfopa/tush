@@ -29,7 +29,7 @@ done
 
 expanded=$(mktemp tush-expanded.XXXXX)
 
-. $(dirname $0)/tush-sandbox.sh-lib
+. "$(dirname "$0")/tush-sandbox.sh-lib"
 
 cleanup()
 {
