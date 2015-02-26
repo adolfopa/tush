@@ -8,8 +8,8 @@
 
 usage()
 {
-    echo "usage: $(basename $0) -h"
-    echo "       $(basename $0) <tush-script>"
+    echo "usage: $(basename "$0") -h"
+    echo "       $(basename "$0") <tush-script>"
 }
 
 while getopts h opt; do

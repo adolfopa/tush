@@ -5,8 +5,8 @@
 
 usage()
 {
-    echo "usage: $(basename $0) -h"
-    echo "       $(basename $0) [-b] [-x] [<tush-script> ...]"
+    echo "usage: $(basename "$0") -h"
+    echo "       $(basename "$0") [-b] [-x] [<tush-script> ...]"
 
 }
 
