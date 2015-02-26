@@ -1,12 +1,12 @@
 #!/usr/bin/awk -f
 
-/^(\||@).*\$[a-zA-Z_0-9]+/ {
-    while (match($0, /\$[a-zA-Z_0-9]+/))
+/^(\||@).*\$[[:alnum:]_]+/ {
+    while (match($0, /\$[[:alnum:]_]+/))
 	expand_variable(0)
 }
 
-/^(\||\@).*\$\{[a-zA-Z_0-9]+\}/ {
-    while (match($0, /\$\{[a-zA-Z_0-9]+\}/))
+/^(\||\@).*\$\{[[:alnum:]_]+\}/ {
+    while (match($0, /\$\{[[:alnum:]_]+\}/))
 	expand_variable(1)
 }
 
