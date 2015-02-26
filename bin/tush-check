@@ -23,7 +23,7 @@ while getopts bhx opt; do
 done
 
 while [ $OPTIND -gt 1 ]; do
-    OPTIND=$(($OPTIND - 1))
+    OPTIND=$((OPTIND - 1))
     shift
 done
 
