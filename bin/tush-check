@@ -43,9 +43,9 @@ sandbox_create
 
 for f in "$@"
 do
-    [ ! -f ${f} ] && echo "file ${f} not found." && exit 66
+    [ ! -f "${f}" ] && echo "file ${f} not found." && exit 66
 
-    < ${f} $expand_cmd > $expanded
+    < "${f}" $expand_cmd > $expanded
 
-    (tush-run ${f} | diff $ignore_blanks -u $expanded -) || exit 1
+    (tush-run "${f}" | diff $ignore_blanks -u $expanded -) || exit 1
 done

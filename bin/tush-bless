@@ -20,6 +20,6 @@ while getopts h opt; do
 done
 
 case $# in 
-  1) overwrite ${1} tush-run ${1};;
+  1) overwrite "${1}" tush-run "${1}";;
   *) usage >&2; exit 64
 esac
