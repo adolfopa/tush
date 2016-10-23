@@ -47,5 +47,5 @@ do
 
     < "${f}" $expand_cmd > $expanded
 
-    (tush-run "${f}" | diff $ignore_blanks -u $expanded -) || exit 1
+    (tush-run "${f}" | diff --label "${f} expected" --label "${f} actual" $ignore_blanks -u $expanded -) || exit 1
 done

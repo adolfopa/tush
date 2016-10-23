@@ -20,14 +20,16 @@ $ tush-check test.tush >/dev/null
 ? 1
 ```
 
-Here, `tail -n +3` skips the first lines from `diff -u` which include
-dates that will vary from one run to the next:
+Same as above but expect the diff output.
 
 ```sh
-$ tush-check test.tush | tail -n +3
+$ tush-check test.tush
+| --- test.tush expected
+| +++ test.tush actual
 | @@ -1 +1,2 @@
 |  $ echo hello world
 | +| hello world
+? 1
 ```
 
 Using `tush-bless` we fix this test failure:
