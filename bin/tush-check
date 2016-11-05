@@ -12,6 +12,7 @@ usage()
 
 expand_cmd=cat
 ignore_blanks=
+diff=${DIFF:-diff}
 
 while getopts bhx opt; do
     case $opt in
@@ -47,5 +48,5 @@ do
 
     < "${f}" $expand_cmd > $expanded
 
-    (tush-run "${f}" | diff --label "${f} expected" --label "${f} actual" $ignore_blanks -u $expanded -) || exit 1
+    (tush-run "${f}" | $diff --label "${f} expected" --label "${f} actual" $ignore_blanks -u $expanded -) || exit 1
 done
